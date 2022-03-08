@@ -1,16 +1,16 @@
 var createError = require("http-errors");
 var express = require("express");
 var path = require("path");
+var mongoose = require("mongoose");
 var cookieParser = require("cookie-parser");
 var logger = require("morgan");
 require('dotenv').config()
 
 // Set up mongoose connection
-var mongoose = require("mongoose");
-var dev_db_url = "mongodb://clonetrooper813:hello@cluster0-shard-00-00.j2ugz.mongodb.net:27017,cluster0-shard-00-01.j2ugz.mongodb.net:27017,cluster0-shard-00-02.j2ugz.mongodb.net:27017/local_library?ssl=true&replicaSet=atlas-11mcw1-shard-0&authSource=admin&retryWrites=true&w=majority";
 
-var mongoDB = process.env.MONGODB_URI || dev_db_url;
-mongoose.connect(mongoDB, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect((process.env.CONNECTION_URL))
+ .then(() => app.listen(PORT, () => console.log("server running on port: 5000")))
+ .catch((error) => console.log(error.message));
 var db = mongoose.connection;
 db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
